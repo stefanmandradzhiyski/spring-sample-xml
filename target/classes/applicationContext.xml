@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:property-placeholder location="app.properties" />
+
+    <bean name="customerRepository"
+          class="com.snmi.repository.HibernateCustomerRepositoryImpl">
+        <!--<property name="dbUsername" value="${dbUsername}" /> -->
+    </bean>
+
+    <!-- Setter Injection WITHOUT auto wire
+    <bean name="customerService"
+          class="com.snmi.service.com.snmi.service.CustomerServiceImpl" >
+          <property name="customerRepository" ref="customerRepository" />
+    </bean>
+    -->
+
+    <!-- Constructor Injection WITHOUT auto wire
+    <bean name="customerService"
+          class="com.snmi.service.com.snmi.service.CustomerServiceImpl" >
+          <constructor-arg index="0" ref="customerRepository" />
+    </bean>
+    -->
+
+    <!-- Constructor injection WITH auto wire by constructor
+    <bean name="customerService"
+          class="com.snmi.service.com.snmi.service.CustomerServiceImpl"
+          autowire="constructor">
+    </bean>
+    -->
+
+    <!-- Constructor injection WITH auto wire by type
+    The parameter type in set method need to be equal to the name
+    of desired bean
+	<bean name="customerService"
+          class="com.snmi.service.com.snmi.service.CustomerServiceImpl"
+          autowire="byType">
+    </bean>
+    -->
+
+    <!-- Constructor injection WITH auto wire by name
+    The name of set method need to be like the name of bean which
+    we want to set -> If hibernate customer rep have been renamed from
+    customerRepository to Car then customer service impl need to be
+    renamed to setCar -->
+
+    <bean name="customerService"
+          class="com.snmi.service.CustomerServiceImpl"
+          autowire="byName"
+          scope="prototype" />
+          <!-- scope="prototype" every time when bean have been
+          instanced you will get a fully new object -->
+
+</beans>
